@@ -1,0 +1,10 @@
+name=Chunk Optimizer
+poster=preview.png
+id=ChunkOptimizer
+icon=icon.png
+description=Optimizes chunk loading to reduce stuttering when driving vehicles. Patches WorldStreamer for multi-chunk loading with signal-based wake, improves look-ahead for fast vehicles, and caps per-frame chunk finalization budget.
+author=Amenophis
+modversion=0.1.0
+require=ZombieBuddy
+javaJarFile=media/java/AnimatedVehiclePartsFix.jar
+javaPkgName=io.ameno.AVPF

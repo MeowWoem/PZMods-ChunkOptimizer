@@ -1,0 +1,5 @@
+version=1
+title=[B42] Chunk Optimizer [ZombieBuddy]
+description=
+tags=Build 42;Misc;
+visibility=public
