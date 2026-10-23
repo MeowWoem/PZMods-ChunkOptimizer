@@ -31,5 +31,8 @@ public final class ChunkOptimizerWakeup {
             LockSupport.parkNanos(remaining);
             if (Thread.interrupted()) break;
         }
+        if (workPending && ChunkOptimizerConfig.STATS) {
+            ChunkOptimizerStats.wakeups.incrementAndGet();
+        }
     }
 }
