@@ -7,6 +7,10 @@ public final class ChunkOptimizerConfig {
 
     public static boolean DEBUG = true;
 
+    public static boolean STATS = true;
+
+    public static long STATS_INTERVAL_MS = 1000;
+
     // --- WorldStreamer patches ---
     public static int MAX_CHUNKS_PER_ITERATION = 4;
 
