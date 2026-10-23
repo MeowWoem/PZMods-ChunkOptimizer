@@ -6,5 +6,5 @@ description=Optimizes chunk loading to reduce stuttering when driving vehicles. 
 author=Amenophis
 modversion=0.1.0
 require=ZombieBuddy
-javaJarFile=media/java/AnimatedVehiclePartsFix.jar
-javaPkgName=io.ameno.AVPF
+javaJarFile=media/java/ChunkOptimizer.jar
+javaPkgName=io.ameno.chunkopt
