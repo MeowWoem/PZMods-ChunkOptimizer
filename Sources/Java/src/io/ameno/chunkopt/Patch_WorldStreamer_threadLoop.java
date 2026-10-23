@@ -27,6 +27,7 @@ public class Patch_WorldStreamer_threadLoop {
     public static boolean idleResolvedOK = false;
     public static Object cswInstance;
     public static Field f_cswSaving;
+    public static Field f_toSaveQueue;
     public static Method m_cswUpdate;
     public static Field f_gcClient;
     public static Field f_doWorldSyncEnable;
@@ -65,6 +66,8 @@ public class Patch_WorldStreamer_threadLoop {
                 cswInstance = f_cswInstance.get(null);
                 f_cswSaving = chunkSaveWorkerClass.getDeclaredField("saving");
                 f_cswSaving.setAccessible(true);
+                f_toSaveQueue = chunkSaveWorkerClass.getDeclaredField("toSaveQueue");
+                f_toSaveQueue.setAccessible(true);
                 m_cswUpdate = chunkSaveWorkerClass.getDeclaredMethod("Update", isoChunkClass);
                 m_cswUpdate.setAccessible(true);
 
@@ -109,8 +112,23 @@ public class Patch_WorldStreamer_threadLoop {
         resolveFields();
         if (f_jobList == null || f_jobQueue == null) return false;
 
+        if (ChunkOptimizerConfig.STATS) {
+            sampleQueues(self);
+        }
         processExtraChunks(self);
         return handleIdle(self);
+    }
+
+    public static void sampleQueues(Object self) {
+        try {
+            int pending = ((Collection<?>) f_jobList.get(self)).size()
+                + ((Collection<?>) f_jobQueue.get(self)).size();
+            ChunkOptimizerStats.max(ChunkOptimizerStats.streamerQueueMax, pending);
+            if (cswInstance != null && f_toSaveQueue != null) {
+                ChunkOptimizerStats.max(ChunkOptimizerStats.saveQueueMax,
+                    ((Collection<?>) f_toSaveQueue.get(cswInstance)).size());
+            }
+        } catch (Exception ignored) {}
     }
 
     @SuppressWarnings("unchecked")
