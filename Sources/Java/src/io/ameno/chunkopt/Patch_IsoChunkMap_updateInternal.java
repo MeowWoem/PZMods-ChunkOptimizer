@@ -11,28 +11,28 @@ import java.util.concurrent.locks.ReentrantLock;
 @Patch(className = "zombie.iso.IsoChunkMap", methodName = "updateInternal")
 public class Patch_IsoChunkMap_updateInternal {
 
-    private static volatile boolean resolved = false;
-    private static Field f_loadGridSquare;
-    private static Field f_ignore;
-    private static Field f_chunkGridWidth;
-    private static Field f_playerId;
-    private static Field f_loaded;
-    private static Field f_vehicles;
-    private static Field f_wx;
-    private static Field f_wy;
-    private static ReentrantLock bSettingChunk;
-    private static Object worldReuserInstance;
-    private static Class<?> isoPlayerClass;
-    private static Class<?> isoWorldClass;
-    private static Class<?> gameClientClass;
-    private static Class<?> gameServerClass;
-    private static Class<?> vehicleCacheClass;
-    private static Class<?> vehicleManagerClass;
-    private static int chunkGridWidth;
-    private static boolean resolvedOK = false;
+    public static volatile boolean resolved = false;
+    public static Field f_loadGridSquare;
+    public static Field f_ignore;
+    public static Field f_chunkGridWidth;
+    public static Field f_playerId;
+    public static Field f_loaded;
+    public static Field f_vehicles;
+    public static Field f_wx;
+    public static Field f_wy;
+    public static ReentrantLock bSettingChunk;
+    public static Object worldReuserInstance;
+    public static Class<?> isoPlayerClass;
+    public static Class<?> isoWorldClass;
+    public static Class<?> gameClientClass;
+    public static Class<?> gameServerClass;
+    public static Class<?> vehicleCacheClass;
+    public static Class<?> vehicleManagerClass;
+    public static int chunkGridWidth;
+    public static boolean resolvedOK = false;
 
     @SuppressWarnings("unchecked")
-    private static void resolve() {
+    public static void resolve() {
         if (resolved) return;
         synchronized (Patch_IsoChunkMap_updateInternal.class) {
             if (resolved) return;
@@ -99,10 +99,9 @@ public class Patch_IsoChunkMap_updateInternal {
 
         try {
             
-            java.util.Queue<Object> loadQueue =
-                (java.util.Queue<Object>) f_loadGridSquare.get(null);
+            Object loadQueue = f_loadGridSquare.get(null);
 
-            int queueSize = loadQueue.size();
+            int queueSize = ((Number) Accessor.callNoArg(loadQueue, "size")).intValue();
             if (queueSize == 0) {
                 doPostLoop(self, false);
                 return true;
@@ -133,13 +132,13 @@ public class Patch_IsoChunkMap_updateInternal {
                             System.out.println("[ChunkOptimizer] Budget hit: "
                                 + String.format("%.1f", elapsedMs) + "ms, "
                                 + processed + "/" + (processed + count)
-                                + " chunks finalized, " + loadQueue.size() + " deferred");
+                                + " chunks finalized, " + Accessor.callNoArg(loadQueue, "size") + " deferred");
                         }
                         break;
                     }
                 }
 
-                Object chunk = loadQueue.poll();
+                Object chunk = Accessor.callNoArg(loadQueue, "poll");
                 if (chunk != null) {
                     boolean loaded = false;
 
@@ -227,7 +226,7 @@ public class Patch_IsoChunkMap_updateInternal {
         }
     }
 
-    private static void doPostLoop(Object self, boolean bChanged) {
+    public static void doPostLoop(Object self, boolean bChanged) {
         try {
             if (bChanged) {
                 Accessor.callNoArg(self, "calculateZExtentsForChunkMap");

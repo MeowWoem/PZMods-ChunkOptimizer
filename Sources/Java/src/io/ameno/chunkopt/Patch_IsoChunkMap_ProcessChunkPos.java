@@ -8,15 +8,15 @@ import java.lang.reflect.Field;
 @Patch(className = "zombie.iso.IsoChunkMap", methodName = "ProcessChunkPos")
 public class Patch_IsoChunkMap_ProcessChunkPos {
 
-    private static volatile boolean resolved = false;
-    private static Field f_worldX;
-    private static Field f_worldY;
-    private static Field f_playerId;
-    private static int chunkGridWidth;
-    private static Class<?> isoPlayerClass;
-    private static boolean resolvedOK = false;
+    public static volatile boolean resolved = false;
+    public static Field f_worldX;
+    public static Field f_worldY;
+    public static Field f_playerId;
+    public static int chunkGridWidth;
+    public static Class<?> isoPlayerClass;
+    public static boolean resolvedOK = false;
 
-    private static void resolve() {
+    public static void resolve() {
         if (resolved) return;
         synchronized (Patch_IsoChunkMap_ProcessChunkPos.class) {
             if (resolved) return;
